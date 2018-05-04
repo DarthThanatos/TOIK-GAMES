@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="angular_sudoku-gh-pages/apps/css/bootstrap.min.css">
     <script src="angular_sudoku-gh-pages/apps/js/libs/angular.min.js"></script>
-    <script src="http://localhost/apps/js/adapter.js" language="javascript" type="text/javascript"></script>
+    <script src="http://192.168.0.100/angular_sudoku-gh-pages/apps/js/adapter.js" language="javascript" type="text/javascript"></script>
     <script type="text/javascript"> main() </script>
 
     <style type="text/css">
@@ -31,7 +31,7 @@
             'use strict';
 
             function getRandomComponentHomeLink(){
-                return "http://localhost/"; //returning the link where the component's manifest exists
+                return "http://192.168.0.100/angular_sudoku-gh-pages/"; //returning the link where the component's manifest exists
                 // return "https://raw.githubusercontent.com/DarthThanatos/TOIK-GAMES/master/angular_sudoku-gh-pages/"
             }
 
@@ -66,9 +66,9 @@
                 var funName = parsedManifest["main-adapter-interface"]["setup-funs"][0]["funName"]
                 console.log("Running: " + funName)
                 eval(funName + "()");
-                var location_ = home + parsedManifest["main-html-dir"] + parsedManifest["main-html-file"]
+                var location_ = home +  parsedManifest["main-html-file"]
                 console.log("Moving to: " + location_)
-                // window.location = location_;
+                window.location = location_;
                 // window.location = "angular_sudoku-gh-pages/index.html"; 
 
             }

@@ -1,8 +1,8 @@
 {
 	"game-name":"sudoku",
-	"main-adapter-dir": "apps/js/",
+	"main-adapter-dir": "angular_sudoku-gh-pages/apps/js/",
 	"main-adapter-file": "adapter.js",
-	"main-html-dir": "./",
+	"main-html-dir": "angular_sudoku-gh-pages/",
 	"main-html-file": "index.html",
 
 	"main-adapter-interface": {
