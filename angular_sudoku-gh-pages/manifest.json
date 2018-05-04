@@ -37,10 +37,8 @@
 			]
 		},
 		
-		// ... and other setters if necessery
-		
 
-		"setup-funs" : [ //call one of them at start
+		"setup-funs" : [ 
 			{
 				"funName": "main",
 				"args" : []
