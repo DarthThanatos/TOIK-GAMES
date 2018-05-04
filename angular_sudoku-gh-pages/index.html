@@ -1,0 +1,102 @@
+<!doctype html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width">
+    <script src="apps/js/libs/jquery-1.11.3.min.js"></script>
+    <script src="apps/js/libs/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="apps/css/bootstrap.min.css">
+    <script src="apps/js/libs/angular.min.js"></script>
+    <script src="apps/js/app.js"></script>
+    <script src="apps/js/data.js"></script>
+    <script src="apps/js/controllers.js"></script>
+    <script src="apps/js/filters.js"></script>
+    <style type="text/css">
+        .margin_left_60 {
+            margin-left: 20px !important;
+        }
+
+        .margin_bottom_60 {
+            margin-bottom: 30px !important;
+        }
+
+        input.valide {
+            color: blue !important;
+        }
+
+        input.error {
+            color: red !important;
+        }
+
+        input.correct {
+            color: green !important;
+            cursor: not-allowed !important;
+            background: #EBE6DF !important;
+        }
+
+        #wrapper {
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+            grid-column: span 9;
+        }
+
+        .row{
+            margin-bottom: 10px;
+        }
+
+        #manual {
+            margin-top: 30px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        #possibilitiesRow{
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        input[type="text"]
+        {
+            font-size: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+
+
+<div id="manual"  style="background-color:lavenderblush;">
+    Instrukcja wszytko tu jest przeczytaj dokładnie a dasz sobie radę <br/> 
+</div>
+
+<div id="wrapper" class="container" ng-app="Sudoku">
+
+    <div class="content" ng-controller="SudokuController">
+        <div id="possibilitiesRow" align="center" style="margin-bottom: 30px;">
+            <button disabled="disabled" type="button" class="btn btn-default" ng-repeat="possibility in currentPossibilities">
+                {[{possibility}]}
+            </button>
+        </div>
+
+        <table>
+            <tr ng-repeat="row in rows" >
+              <td ng-repeat="column in row.columns"  style="{[{ column.id | column_modulo_3_style}]} {[{ row.id | row_modulo_3_style}]}">
+                        <input class="form-control {[{ column.class }]} {[{check(row.id, column.id)}]}"
+                               type="text" name="cell-{[{row.id}]}{[{column.id}]}"
+                               value="column.value" ng-model="column.value" type="number"
+                               ng-maxlength="1" required
+                               ng-click="possibilities(row.id, column.id)"
+                               ng-change="{[{ getValue(column.value, row.id, column.id) }]}">
+
+              </td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
