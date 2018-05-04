@@ -34,3 +34,10 @@ Sudoku.filter('row_modulo_3_style', function(){
     }
 );
 
+
+Sudoku.filter('if_poss_gt0', function(){
+        return function(input) {
+            return (typeof input !== 'undefined' && input.length != 0 ) ? 'Possibilities:' : '';
+        };
+    }
+);
