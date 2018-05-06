@@ -79,7 +79,7 @@ function removeCompIfExists(component_game_name){
 
 function addComponentSrc(component_game_name, parsedManifest, randomComponentHomeLink, callback){
 
-    /*this function produces a tag: 
+    /*this function produces a e.g. tag: 
     <script 
         src="http://localhost/angular_sudoku-gh-pages/apps/js/adapter.js" 
         language="javascript" 
