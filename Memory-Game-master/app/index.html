@@ -7,8 +7,11 @@
   <script src="lib/angular/angular.js"></script>
   <script src="js/app.js"></script>
   <script src="js/game.js"></script>
+  <script type="text/javascript" src="js/adapter.js"></script>
 </head>
 <body ng-controller="GameCtrl">
+
+  <button type="button" class="btn btn-default"  ng-click="sendScore()">Send score</button>
   <div>Pairs left to match: {{game.unmatchedPairs}}</div>
   <div>Matching: {{game.firstPick.title}}</div>
 

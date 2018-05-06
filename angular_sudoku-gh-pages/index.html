@@ -11,6 +11,7 @@
     <script src="apps/js/data.js"></script>
     <script src="apps/js/controllers.js"></script>
     <script src="apps/js/filters.js"></script>
+    <script src="apps/js/adapter.js"></script>
     <style type="text/css">
         .margin_left_60 {
             margin-left: 20px !important;
@@ -77,6 +78,7 @@
 
     <div class="content" ng-controller="SudokuController">
         <div id="possibilitiesRow" align="center" style="margin-bottom: 30px;">
+            <button type="button" class="btn btn-default" ng-click="sendScore()">Send score</button>
             {[{ currentPossibilities | if_poss_gt0}]}<br/>
             <button disabled="disabled" type="button" class="btn btn-default" ng-repeat="possibility in currentPossibilities">
                 {[{possibility}]}

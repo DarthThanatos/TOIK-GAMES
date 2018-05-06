@@ -343,7 +343,8 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
         // after exhausting all possibilities of all cells, the grid is not solvable.
     	return {'state' :false, 'rows':''};
     }
-    
+
+
 	$scope.getValue = function(value, rowId, columnId) {
         rowId -= 1;
         columnId -= 1;
@@ -352,7 +353,7 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
         if (!(value >= 1 && value <= 9)){
 			return "";		
-		}		
+		}
 		return value;		
 	};
 
@@ -486,4 +487,8 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 		else
 			alert("can't be solved")
 	};
+    
+    $scope.sendScore = function(){
+        sendScoreAndReturnControl(20);
+    }
 }); 

@@ -1,9 +1,9 @@
 var host = "localhost"
-var component_location_prefix = "http://" + host + "/angular_sudoku-gh-pages/" 
+var component_location_prefix = "http://" + host + "/Memory-Game-master/" 
 var client_location = "http://" + host  + "/client.html"
 
-function main_sudoku(parsedManifest){
-    if(main_sudoku.userName != "" &&  main_sudoku.roomName != "" && main_sudoku.userAge != -1){
+function main_memo(parsedManifest){
+    if(main_memo.userName != "" &&  main_memo.roomName != "" && main_memo.userAge != -1){
         onRun(parsedManifest)
     }
     else{
@@ -15,18 +15,18 @@ function main_sudoku(parsedManifest){
 }
 
 function setAgeOfUSer(age){
-    main_sudoku.userAge = age
-    console.log("age: " + main_sudoku.userAge)
+    main_memo.userAge = age
+    console.log("age: " + main_memo.userAge)
 }
 
 function setNameOfUser(name){
-    main_sudoku.userName = name
-    console.log("name: " + main_sudoku.userName)
+    main_memo.userName = name
+    console.log("name: " + main_memo.userName)
 }
 
 function setServerRoom(serverRoomName){
-    main_sudoku.roomName = serverRoomName
-    console.log("room: " + main_sudoku.roomName)
+    main_memo.roomName = serverRoomName
+    console.log("room: " + main_memo.roomName)
 }
 
 function onRun(parsedManifest){
@@ -39,9 +39,9 @@ function onRun(parsedManifest){
 function persistAdapterData(){
     window.name = JSON.stringify(
         { 
-            userName: main_sudoku.userName,
-            userAge : main_sudoku.userAge,
-            roomName: main_sudoku.roomName
+            userName: main_memo.userName,
+            userAge : main_memo.userAge,
+            roomName: main_memo.roomName
         }
     );
 }
@@ -49,10 +49,9 @@ function persistAdapterData(){
 function sendScoreAndReturnControl(score){
     var adapterData = JSON.parse(window.name); 
     alert(
-        "Sending " + score + " and returning control to user from sudoku: " + adapterData['userName']
+        "Sending " + score + " and returning control to user from memo: " + adapterData['userName']
          + " room: " + adapterData['roomName']
          + " age: " + adapterData['userAge']
     )
     window.location = client_location
-
 }

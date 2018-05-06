@@ -15,6 +15,9 @@ memoryGameApp.factory('game', function() {
 
 memoryGameApp.controller('GameCtrl', function GameCtrl($scope, game) {
   $scope.game = game;
+  $scope.sendScore = function(){
+      sendScoreAndReturnControl(1);
+  }
 });
 
 

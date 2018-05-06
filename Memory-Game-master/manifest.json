@@ -1,8 +1,8 @@
 {
-	"game-name":"sudoku",
-	"main-adapter-dir": "apps/js/",
+	"game-name":"memo",
+	"main-adapter-dir": "app/js/",
 	"main-adapter-file": "adapter.js",
-	"main-html-dir": "./",
+	"main-html-dir": "app/",
 	"main-html-file": "index.html",
 
 	"main-adapter-interface": {
@@ -40,7 +40,7 @@
 
 		"setup-fun" : 
 		{
-			"funName": "main_sudoku",
+			"funName": "main_memo",
 			"args" : [
 				{
 					"type": "json",

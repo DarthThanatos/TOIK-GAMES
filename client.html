@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width">
     <script src="angular_sudoku-gh-pages/apps/js/libs/jquery-1.11.3.min.js"></script>
     <script src="angular_sudoku-gh-pages/apps/js/libs/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link rel="stylesheet" href="angular_sudoku-gh-pages/apps/css/bootstrap.min.css">
     <script src="angular_sudoku-gh-pages/apps/js/libs/angular.min.js"></script>
-    <script src="http://192.168.0.100/angular_sudoku-gh-pages/apps/js/adapter.js" language="javascript" type="text/javascript"></script>
-    <script type="text/javascript"> main() </script>
+    <script src="client.js"> </script>
 
     <style type="text/css">
         #manual{
@@ -30,71 +28,11 @@
         Client.controller('ClientController', function ClientController($scope, data) {
             'use strict';
 
-            function getRandomComponentHomeLink(){
-                return "http://192.168.0.100/angular_sudoku-gh-pages/"; //returning the link where the component's manifest exists
-                // return "https://raw.githubusercontent.com/DarthThanatos/TOIK-GAMES/master/angular_sudoku-gh-pages/"
-            }
-
-            function getJSON(link, home, callback) {
-                var xobj = new XMLHttpRequest();
-                xobj.overrideMimeType("application/json");
-                xobj.open('GET', link, true);
-                xobj.onreadystatechange = function() {
-                    if (xobj.readyState === 4 && xobj.status === 200) {
-                        callback(home, xobj.responseText);
-                    }
-                };
-                xobj.send(null);
-            }
-
-
-
             $scope.onClick = function(){
-                var randomComponentHomeLink = getRandomComponentHomeLink();
-                getJSON(randomComponentHomeLink + "manifest.json", randomComponentHomeLink, onManifestReady );
+                clientMain()
             }
 
-            function onManifestReady(home, json){
-                var parsedManifest = JSON.parse(json); 
-                var component_game_name = parsedManifest["game-name"]
-                removeCompIfExists(component_game_name)
-                addComponentSrc(component_game_name, parsedManifest, home)
-                runComponent(home, parsedManifest)
-            }
-
-            function runComponent(home, parsedManifest){
-                var funName = parsedManifest["main-adapter-interface"]["setup-funs"][0]["funName"]
-                console.log("Running: " + funName)
-                eval(funName + "()");
-                var location_ = home +  parsedManifest["main-html-file"]
-                console.log("Moving to: " + location_)
-                window.location = location_;
-                // window.location = "angular_sudoku-gh-pages/index.html"; 
-
-            }
-
-            function removeCompIfExists(component_game_name){
-                var element = document.getElementById(component_game_name);
-                if(typeof element !== 'undefined' && element != null) {
-                    element.parentNode.removeChild(element);
-                    console.log("Removed old element: " + component_game_name);
-                }
-
-            }
-
-            function addComponentSrc(component_game_name, parsedManifest, randomComponentHomeLink){
-                var fileref=document.createElement('script')
-                fileref.setAttribute("type","text/javascript")
-                fileref.setAttribute("id", component_game_name)
-                var filename = randomComponentHomeLink + parsedManifest["main-adapter-dir"]  + parsedManifest["main-adapter-file"]
-                fileref.setAttribute("src", filename)   
-                fileref.setAttribute("language", "javascript")
-                fileref.setAttribute("type", "text/javascript")
-                document.head.appendChild(fileref);   
-                console.log("filename: " + filename)     
-            }
         });
-
     </script>
 </head>
 <body>

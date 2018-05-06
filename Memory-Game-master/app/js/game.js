@@ -43,6 +43,16 @@ function Game(tileNames) {
         this.unmatchedPairs--;
         this.message = (this.unmatchedPairs > 0) ? Game.MESSAGE_MATCH : Game.MESSAGE_WON;
         this.firstPick = this.secondPick = undefined;
+        
+        var unmatchedPairs = this.unmatchedPairs
+        var delayMillis = 1000
+        setTimeout(
+          function(){
+            onCardRotationEnd(unmatchedPairs)
+          }, 
+          delayMillis
+        );
+
       } else {
         this.secondPick = tile;
         this.message = Game.MESSAGE_MISS;
@@ -50,6 +60,13 @@ function Game(tileNames) {
     }
   }
 }
+
+function onCardRotationEnd (unmatchedPairs){
+  if(unmatchedPairs == 0) {
+    sendScoreAndReturnControl(1)
+  }
+}
+
 
 Game.MESSAGE_CLICK = 'Click on a tile.';
 Game.MESSAGE_ONE_MORE = 'Pick one more card.'
