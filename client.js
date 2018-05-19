@@ -3,8 +3,8 @@ var component_prefix = "http://" + host + "/"
 
 function getRandomComponentHomeLink(){
     return component_prefix + ((Math.floor(Math.random() * 2) == 0 
-        ? "angular_sudoku-gh-pages/" 
-        : "Memory-Game-master/")); 
+        ? "sudoku/" 
+        : "memo/")); 
 }
 
 
