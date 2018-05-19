@@ -27,17 +27,17 @@ function afterConfigFetched(configJSON){
 function sendScoreAndReturnControl(score){
     var adapterData = JSON.parse(window.name); 
     // window.location = client_location
-    postScore("http://192.168.0.100:8082/gameEnd", score);
+    // postScoreJson("http://192.168.0.100:8082/gameEnd", score);
+    postModelAttr("http://192.168.0.100:8082/gameEnd", score);
 }
 
 
-function postScore(link, score) {
+function postScoreJson(link, score) {
     var data = JSON.parse(window.name);
-    
+
     var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('POST', link, false);
     xobj.setRequestHeader("Content-Type", "application/json");
+    xobj.open('POST', link, false);
     xobj.send(
         JSON.stringify(
             {   
@@ -48,6 +48,15 @@ function postScore(link, score) {
             }
         )
     );
+}
+
+
+function postModelAttr(link, score){
+    var data = JSON.parse(window.name);
+
+    var xobj = new XMLHttpRequest();
+    xobj.open('POST', link + "?group=" + data["group"] + "&nick=" + data["nick"] + "&age=" + data["age"] + "&result=" + score, false);
+    xobj.send(null);
 }
 
 
