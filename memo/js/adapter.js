@@ -2,6 +2,56 @@ var host = "localhost"
 var component_location_prefix = "http://" + host + "/memo/" 
 var client_location = "http://" + host  + "/client.html"
 
+function main(){
+    getJSON("http://192.168.0.100:8082/memo/config", afterConfigFetched);
+}
+
+function getJSON(link, callback) {
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('GET', link, true);
+    xobj.withCredentials = false;
+    xobj.onreadystatechange = function() {
+        if (xobj.readyState === 4 && xobj.status === 200) {
+            callback(xobj.responseText);
+        }
+    };
+    xobj.send(null);
+}
+
+function afterConfigFetched(configJSON){
+    console.log("Got response: " + configJSON);
+    window.name = configJSON
+}
+
+function sendScoreAndReturnControl(score){
+    var adapterData = JSON.parse(window.name); 
+    // window.location = client_location
+    postScore("http://192.168.0.100:8082/gameEnd", score);
+}
+
+
+function postScore(link, score) {
+    var data = JSON.parse(window.name);
+    
+    var xobj = new XMLHttpRequest();
+    xobj.overrideMimeType("application/json");
+    xobj.open('POST', link, false);
+    xobj.setRequestHeader("Content-Type", "application/json");
+    xobj.send(
+        JSON.stringify(
+            {   
+                group : data["group"],
+                nick : data["nick"],
+                age : data["age"],
+                result: score
+            }
+        )
+    );
+}
+
+
+
 function main_memo(parsedManifest){
     if(main_memo.userName != "" &&  main_memo.roomName != "" && main_memo.userAge != -1){
         onRun(parsedManifest)
@@ -44,14 +94,4 @@ function persistAdapterData(){
             roomName: main_memo.roomName
         }
     );
-}
-
-function sendScoreAndReturnControl(score){
-    var adapterData = JSON.parse(window.name); 
-    alert(
-        "Sending " + score + " and returning control to user from memo: " + adapterData['userName']
-         + " room: " + adapterData['roomName']
-         + " age: " + adapterData['userAge']
-    )
-    window.location = client_location
 }
