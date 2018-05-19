@@ -55,7 +55,15 @@ function postModelAttr(link, score){
     var data = JSON.parse(window.name);
 
     var xobj = new XMLHttpRequest();
-    xobj.open('POST', link + "?group=" + data["group"] + "&nick=" + data["nick"] + "&age=" + data["age"] + "&result=" + score, false);
+    xobj.open('POST', link + "?group=" + data["group"] + "&nick=" + data["nick"] + "&age=" + data["age"] + "&result=" + score, true);
+
+    xobj.onreadystatechange = function() {
+        if (xobj.readyState === 4 && xobj.status === 200) {
+            console.log(xobj.responseText)
+            window.location = xobj.responseText
+        }
+    };
+
     xobj.send(null);
 }
 
