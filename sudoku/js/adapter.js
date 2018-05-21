@@ -1,16 +1,30 @@
-var host = "localhost"
-var component_location_prefix = "http://" + host + "/sudoku/" 
-var client_location = "http://" + host  + "/client.html"
+var config_endpoint = "/sudoku/config" //http://192.168.0.100:8082/sudoku/config"
+var postScore_endpoint = "/game/end" //"http://192.168.0.100:8082/game/end"
 
 function main(){
-    getJSON("http://192.168.0.100:8082/sudoku/config", afterConfigFetched);
+    getJSON(config_endpoint, afterConfigFetched);
+}
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
 }
 
 function getJSON(link, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
     xobj.open('GET', link, true);
-    xobj.withCredentials = false;
     xobj.onreadystatechange = function() {
         if (xobj.readyState === 4 && xobj.status === 200) {
             callback(xobj.responseText);
@@ -19,27 +33,37 @@ function getJSON(link, callback) {
     xobj.send(null);
 }
 
-
 function afterConfigFetched(configJSON){
     console.log("Got response: " + configJSON);
+    var csrftoken = getCookie('csrftoken');
+    var JSESSIONID = getCookie('JSESSIONID');
+    console.log("csrftoken: " + csrftoken + " JSESSIONID: " + JSESSIONID)
     window.name = configJSON
 }
 
 function sendScoreAndReturnControl(score){
     var adapterData = JSON.parse(window.name); 
-    // window.location = client_location
-    // postScoreJson("http://192.168.0.100:8082/gameEnd", score);
-    postModelAttr("http://192.168.0.100:8082/gameEnd", score);
+    postScoreJson(postScore_endpoint, score);
+    // postModelAttr(postScore_endpoint, score);
 }
 
-
 function postScoreJson(link, score) {
-    var data = JSON.parse(window.name);
+    var data = JSON.parse(window.name); 
 
     var xobj = new XMLHttpRequest();
-    xobj.setRequestHeader("Content-Type", "application/json");
-    xobj.open('POST', link, false);
-    xobj.send(
+    xobj.open('POST', link, true);
+    xobj.overrideMimeType("application/json");
+    xobj.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    xobj.withCredentials = true
+    
+    xobj.onreadystatechange = function() {
+        if (xobj.readyState === 4 && xobj.status === 200) {
+            console.log(xobj.responseText)
+            window.location = xobj.responseText
+        }
+    };
+
+    var sentPayload = 
         JSON.stringify(
             {   
                 group : data["group"],
@@ -47,8 +71,9 @@ function postScoreJson(link, score) {
                 age : data["age"],
                 result: score
             }
-        )
-    );
+        );
+    console.log(sentPayload);
+    xobj.send(sentPayload);
 }
 
 
@@ -69,8 +94,12 @@ function postModelAttr(link, score){
 }
 
 
+//===============================================================================================================
+//OLD ADAPTING FUNCTIONALITY
 
-
+var host = "localhost"
+var component_location_prefix = "http://" + host + "/sudoku/" 
+var client_location = "http://" + host  + "/client.html"
 
 function main_sudoku(parsedManifest){
     if(main_sudoku.userName != "" &&  main_sudoku.roomName != "" && main_sudoku.userAge != -1){

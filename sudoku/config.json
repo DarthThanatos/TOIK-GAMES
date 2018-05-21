@@ -1,5 +1,5 @@
 {
-	"game-name":"sudoku",
+	"name":"sudoku",
 	"main-adapter-dir": "apps/js/",
 	"main-adapter-file": "adapter.js",
 	"main-html-dir": "./",

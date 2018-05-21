@@ -1,5 +1,5 @@
 {
-	"game-name":"memo",
+	"name":"memo",
 	"main-adapter-dir": "app/js/",
 	"main-adapter-file": "adapter.js",
 	"main-html-dir": "app/",
