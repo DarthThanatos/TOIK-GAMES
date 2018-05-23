@@ -85,18 +85,22 @@
 
     <div class="content" ng-controller="SudokuController">
         <div id="possibilitiesRow" align="center" style="margin-bottom: 30px;">
+            
             <button type="button" class="btn btn-default" ng-click="sendScore()">Send score</button>
+            
             {[{ currentPossibilities | if_poss_gt0}]}<br/>
+
             <button disabled="disabled" type="button" class="btn btn-default" ng-repeat="possibility in currentPossibilities">
                 {[{possibility}]}
             </button>
+            
         </div>
 
         <table>
             <tr ng-repeat="row in rows" >
               <td ng-repeat="column in row.columns"  style="{[{ column.id | column_modulo_3_style}]} {[{ row.id | row_modulo_3_style}]}">
                         <input class="form-control {[{ column.class }]} {[{check(row.id, column.id)}]}"
-                               type="text" name="cell-{[{row.id}]}{[{column.id}]}"
+                               name="cell-{[{row.id}]}{[{column.id}]}"
                                value="column.value" ng-model="column.value" 
                                ng-maxlength="1" required
                                ng-click="possibilities(row.id, column.id)"

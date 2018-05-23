@@ -466,7 +466,7 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
                 if((value == $scope.rows[j].columns[k].value) && j != rowId && k != columnId){
 					$scope.rows[rowId].columns[columnId].class = changeClass($scope.rows[rowId].columns[columnId].class,"error");
 	            	$scope.rows[j].columns[k].class = changeClass($scope.rows[j].columns[k].class, "error");
-	            	}
+	            }
             }	    	   		
    	};
    	   	   
