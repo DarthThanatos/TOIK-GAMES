@@ -48,7 +48,37 @@ class Snake {
 			_this.controller(event.which);
 
 		};
-
+		
+		var mc = new Hammer(document.getElementById('stage'));
+		mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+		
+		mc.on("swipeleft swipeup swiperight swipedown", function (ev) {        
+			if (ev.type === 'swipeleft') {
+				if (this.ySpeed != 0 && this.canChangeDirection) {
+					this.canChangeDirection = false;
+					this.xSpeed = -1;
+					this.ySpeed = 0;
+				}
+			} else if (ev.type === 'swipeup') {
+				if (this.xSpeed != 0 && this.canChangeDirection) {
+					this.canChangeDirection = false;
+					this.xSpeed = 0;
+					this.ySpeed = -1;
+				}
+			} else if (ev.type === 'swiperight') {
+				if (this.ySpeed != 0 && this.canChangeDirection) {
+					this.canChangeDirection = false;
+					this.xSpeed = 1;
+					this.ySpeed = 0;
+				}
+			} else if (ev.type === 'swipedown') {
+				if (this.xSpeed != 0 && this.canChangeDirection) {
+					this.canChangeDirection = false;
+					this.xSpeed = 0;
+					this.ySpeed = 1;
+		}
+			}
+		});
 	}
 
 	/*
