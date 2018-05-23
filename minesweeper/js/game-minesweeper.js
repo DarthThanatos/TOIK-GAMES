@@ -1,27 +1,3 @@
-/* globals alert */
-/**
- MineSweeper.js
- Author: Michael C. Butler
- Url: https://github.com/michaelbutler/minesweeper
-
- Dependencies: jQuery, jQuery UI CSS (for icons)
-
- This file is part of Minesweeper.js.
-
- Minesweeper.js is free software: you can redistribute it and/or modify
- it under the terms of the GNU General Public License as published by
- the Free Software Foundation, either version 3 of the License, or
- (at your option) any later version.
-
- Minesweeper.js is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- GNU General Public License for more details.
-
- You should have received a copy of the GNU General Public License
- along with Minesweeper.js.  If not, see <http://www.gnu.org/licenses/>.
- */
-
 var MineSweeper;
 
 
@@ -630,6 +606,8 @@ jQuery(function ($) {
                 }
             }
             msObj.running = false;
+			var time = $('#timer').val() * 2;
+			sendScoreAndReturnControl(time)
         };
 
         this.winGame = function () {
@@ -638,6 +616,7 @@ jQuery(function ($) {
             var time = $('#timer').val();
             alert('You win!\nYour time: ' + time);
             msObj.checkBestTime(time);
+			sendScoreAndReturnControl(time)
         };
 
         this.checkBestTime = function (time) {
@@ -663,16 +642,8 @@ jQuery(function ($) {
         this.getTemplate = function (template) {
             var templates = {
                 'settings':
-                    '<div class="game_settings"><select id="level"><option value="beginner">Beginner</option>' +
-                    '<option value="intermediate">Intermediate</option><option value="expert">Expert</option>' +
-                    '<option value="custom">Custom</option></select>' +
-                    '<input type="text" id="dim_x" placeholder="x" size="5" disabled value="20" />' +
-                    '<input type="text" id="dim_y" placeholder="y" size="5" disabled value="20" />' +
-                    '<input type="text" id="numMines" placeholder="mines" size="5" disabled />' +
+                    '<div class="game_settings" style="visibility: hidden"><select id="level"><option value="beginner">Beginner</option>' +
                     '</div>',
-                'actions':
-                    '<div class="game_actions"><button class="new-game">New Game</button>' +
-                    '<button id="bestTimes">Best times</button></div>',
                 'status':
                     '<div class="game_status"><label>Time:</label>' +
                     '<input type="text" id="timer" size="6" value="0" readonly />' +

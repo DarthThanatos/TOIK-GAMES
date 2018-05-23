@@ -352,6 +352,10 @@ class Game {
 
 		this.spanScore.innerHTML = this.score;
 
+		if(this.score >= 20) {
+			sendScoreAndReturnControl(this.score)
+		}
+		
 		if (! this.snake.isAlive) {
 			if(this.deaths > 0) {
 				sendScoreAndReturnControl(this.score)
