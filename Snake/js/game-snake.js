@@ -353,7 +353,7 @@ class Game {
 		this.spanScore.innerHTML = this.score;
 
 		if (! this.snake.isAlive) {
-			if(deaths > 0) {
+			if(this.deaths > 0) {
 				sendScoreAndReturnControl(this.score)
 			}
 			this.maxScore = this.score > this.maxScore ? this.score : this.maxScore;
