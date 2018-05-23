@@ -1,0 +1,57 @@
+{
+	"name":"snake",
+	"main-adapter-dir": "app/js/",
+	"main-adapter-file": "adapter.js",
+	"main-html-dir": "app/",
+	"main-html-file": "index.html",
+
+	"main-adapter-interface": {
+		"set-name" : {
+			"funName" : "setNameOfUser",
+			"args" :  [
+				{
+					"type": "string",
+					"name" : "userName"
+
+				}
+			]
+		},
+		"set-age" : {
+			"funName" : "setAgeOfUSer",
+			"args" :  [
+				{
+					"type": "int",
+					"name" : "userAge"
+
+				}
+			]
+		},
+		"set-room" : {
+			"funName" : "setServerRoom",
+			"args": [
+				{
+					"type": "string",
+					"name" : "serverRoomName"
+
+				}
+			]
+		},
+		
+
+		"setup-fun" : 
+		{
+			"funName": "main_memo",
+			"args" : [
+				{
+					"type": "json",
+					"name" : "parsedManifest"
+				},
+				{
+					"type": "string",
+					"name": "homeLink"
+				}
+			]
+		}
+		
+	}
+}
