@@ -1,9 +1,7 @@
 Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 	'use strict';
 
-	$scope.rows = angular.copy(data);	
-	$scope.rows_save = angular.copy(data);	
-	$scope.current_possibilities = [];
+	$scope.rows = angular.copy(data);		
 
     /**
      * Creates an empty grid.
@@ -72,33 +70,6 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 		};
     }
 
-    /**
-     * Return the max and min values of row/column based on case id.
-     *
-     * e.g. caseId = 3
-     *
-     *  X | X | X
-     *  -   -   -
-     *  O | X | X
-     *  -   -   -
-     *  X | X | X
-     *
-     *  returns {(3, 6), (0, 3)}
-     */
-    function getCaseEdgesById(caseId) {
-        var rowMin = Math.floor(caseId/3) * 3;
-        var columnMin = (caseId % 3) * 3;
-        return {
-            row: {
-                min: rowMin,
-                max: rowMin + 3
-            },
-            column: {
-                min: columnMin,
-                max: columnMin + 3
-            }
-        };
-    }
 
     function removePossibilities(possibilities, indices) {
         for (var i = 0; i < indices.length; i++){
@@ -170,186 +141,10 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 		return pos;
     }
 
-    /**
-     * Searches for cells with unique possibilities.
-     * Return a tuple (state1, state2):
-     *     * state1: whether the grid is solvable or not.
-     *     * state2: whether it check for more cells with unique possibilities.
-     */
-    function searchUniquePossibilities(rows){
-    	var gridUpdated = false;
-        
-        var lineSearch = function(direction) {
-
-            var _checkPerpondicularDirection = function(){
-                for(var j=0; j<9 && nbrCell<2; j++){
-                    var cell = (direction === "row") ? rows[i].columns[j] : rows[j].columns[i];
-                    if(cell.value == ""){
-                        // we need to check if this value is a possibility for this cell
-                        for(var m=0; (m < cell.possibilities.length && cell.possibilities[m] != line_pos[p]); m++);
-                            if(cell.possibilities[m] == line_pos[p]){
-                                nbrCell++;
-                                memCell = j;
-                            }
-                    }
-                }
-            };
-
-            for(var i=0; i<9; i++){
-                // for each cell of this line get possibilities.
-                var line_pos = linePossibilities(rows, direction, i);
-                
-                for(var p=0; p<line_pos.length; p++){ // for each possibility
-                    var nbrCell = 0; // check nbr cells possibly receiving this value
-                    var memCell = 0; // memorize the cell that could receive this value
-                    
-                    _checkPerpondicularDirection();
-
-                    if(nbrCell == 0)
-                        return false;
-
-                    if(nbrCell == 1){
-                        var cell = (direction === "row") ? rows[i].columns[memCell] : rows[memCell].columns[i];
-                        cell.value = line_pos[p];
-                        gridUpdated=true;
-                    }
-                }
-            }
-            return true;
-        };
-
-        if(!lineSearch("row"))
-            return [false, null];
-
-        if(!lineSearch("column"))
-            return [false, null];
-
-    	//case
-		for(var i = 0; i < 9; i++)
-		{
-            var edges = getCaseEdgesById(i);
-			var cellPossibilities = casePossibilities(rows, edges);
-			//for each possible value of this case
-			for(var k=0; k<cellPossibilities.length; k++)
-			{
-				var nbrCell = 0;
-				var memCell = 0;
-				for(var j = 0; (j < 9 && nbrCell < 2); j++)
-					if(rows[edges.row.min + Math.floor(j/3)].columns[edges.column.min + (j%3)].value == ""){
-						var m;
-                        var cell = rows[edges.row.min + Math.floor(j/3)].columns[edges.column.min + (j%3)];
-						for(m=0; (m < cell.possibilities.length && cell.possibilities[m] != cellPossibilities[k]); m++);
-                            if(cell.possibilities[m] == cellPossibilities[k]){
-                                nbrCell++;
-                                memCell = j;
-                            }
-					}
-
-				if(nbrCell == 0)
-					return [false, null];
-
-                if(nbrCell  == 1)
-				{
-					rows[edges.row.min + Math.floor(memCell/3)].columns[edges.column.min + (memCell%3)].value = cellPossibilities[k];
-					gridUpdated=true;
-				}
-			}
-		}
-	return [true, gridUpdated];
-    }
-
-    /**
-     * Updates cells possibilities.
-     * @return {boolean}
-     */
-    function UpdatePossibilities(rows) {
-        for(var l=0; l<9; l++)
-            for(var c=0; c<9; c++)
-                if(rows[l].columns[c].value == ""){
-                    rows[l].columns[c].possibilities = angular.copy(getPossibilities(rows,l,c));
-                    var possibilitiesLength = rows[l].columns[c].possibilities.length;
-
-                    // grid cannot be solved, a cell has no possible values
-                    if(possibilitiesLength == 0)
-                        return false;
-
-                }
-        return true;
-    }
-
-    /**
-     * Solves the grid.
-     *      1. updates cell possibilities.
-     *      2. fill cells with unique values.
-     *      3. if grid updated, go back to (1.) else go to (4.)
-     *      4. backtrack algorithm (does not try the possibilities one by one,
-     *                              instead randomly choose possibilities).
-     */
-	function solveRows(rows){
-    	var state = true;
-		while(state){
-			state = false;
-
-            // try to fill unique values, otherwise return false if not solvable
-			if(!UpdatePossibilities(rows))
-                return false;
-
-            // check if has more unique values
-            var states = searchUniquePossibilities(rows);
-
-            // grid is unsolvable
-            if(states[0] == false)
-                return false;
-
-            // grid updated loop again
-            if(states[1])
-                state = true;
-		}
-
-		if(isSolved(rows))
-			return {state: true, rows: angular.copy(rows)};
-
-		return randomSolving(rows);
-    }
-
-    /**
-     * Tries to solve the grid randomly.
-     * Goes through all cells, and applies all possible values for this cell.
-     */
-    function randomSolving(rows){
-    	for(var l=0; l<9; l++)
-    		for(var c=0; c<9; c++)
-    			if(rows[l].columns[c].value == ""){ // if cell is empty
-                    // get possibilities for this cell
-    				rows[l].columns[c].possibilities = angular.copy(getPossibilities(rows, l, c));
-    				var nbr_pos = rows[l].columns[c].possibilities.length;
-    				while(nbr_pos>0){ // try all possibilities
-    					var rows_clone = angular.copy(rows);
-    					var randomPossibility = Math.floor((Math.random() * 10) + 1) % nbr_pos;
-    					rows_clone[l].columns[c].value = rows_clone[l].columns[c].possibilities[randomPossibility];
-    					var results = solveRows(rows_clone); // try t solve for this random possibility
-
-    					if(results['state']){
-					   		return {'state':true, 'rows': results['rows']};
-					   	}  
-					   	else{
-                            // if the grid is not solved, remove this from possible values
-                            // of this cell and try again
-				   			rows_clone[l].columns[c].possibilities.splice(randomPossibility,1);
-				   			nbr_pos --;				   			
-				   		}    					
-    				}
-    			}
-
-        // after exhausting all possibilities of all cells, the grid is not solvable.
-    	return {'state' :false, 'rows':''};
-    }
-
 	$scope.getValue = function(value, rowId, columnId) {
         rowId -= 1;
         columnId -= 1;
 		if ($scope.rows[rowId].columns[columnId].class == "correct")
-			$scope.rows[rowId].columns[columnId].value = $scope.rows_save[rowId].columns[columnId].value;
 
         if (!(value >= 1 && value <= 9)){
 			return "";		
@@ -357,13 +152,6 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 		return value;		
 	};
 
-	$scope.init = function() {	
-		$scope.rows = jQuery.extend(true, [], $scope.rows_save);
-	};
-	
-	$scope.clear = function() {		
-		$scope.rows = createEmptyRows();
-	};
 
 	function genRandList(nbrRandom){
 		var randList = [];
@@ -455,15 +243,7 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
     }
 
-	$scope.solve = function() {
-		var results = solveRows($scope.rows);
-		if(results['state']){
-			$scope.rows = jQuery.extend(true, [], results['rows']);
-			alert("solved");			
-		}
-		else
-			alert("can't be solved")
-	};
+
     
     $scope.deleteNumberAtSelectedField = function(){
         if(typeof $scope.currently_clicked === 'undefined') return;
@@ -491,8 +271,18 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
     $scope.generate = function(){
         var board = generateGameBoard();
-        console.log(board)
+        printBoard(board)
         generateView(board)
+    }
+
+    function printBoard(sudoku){
+        for(var i = 0; i < 9; i ++){
+            var line = "";
+            for (var j = 0; j < 9; j++){
+                line += sudoku[i * 9 + j] + " ";
+            }
+            console.log(line);
+        }
     }
 
     /**
@@ -543,7 +333,6 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
             }
         }           
         
-        $scope.rows_save = angular.copy(rows);
         $scope.rows = angular.copy(rows);
     };
 
