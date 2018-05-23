@@ -345,7 +345,6 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
     	return {'state' :false, 'rows':''};
     }
 
-
 	$scope.getValue = function(value, rowId, columnId) {
         rowId -= 1;
         columnId -= 1;
@@ -492,18 +491,18 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
         changeCurrentlyClickedColorByCoords("rgb(221, 221, 221)")
         $scope.currently_clicked = [row_id, column_id];
-        changeCurrentlyClickedColorByCoords("rgb(255, 255, 0)")
+        changeCurrentlyClickedColorByCoords("rgb(102, 153, 153)")
 
         reloadPossibilities(row_id, column_id);
 	};
 	
     $scope.onPossibilityClicked = function(possibility){
-        var row_id = $scope.currently_clicked[0] + 1
-        var column_id = $scope.currently_clicked[1] + 1
+        var row_id = $scope.currently_clicked[0] 
+        var column_id = $scope.currently_clicked[1] 
 
-        $scope.rows[row_id - 1].columns[column_id - 1].value = possibility
+        $scope.rows[row_id].columns[column_id].value = possibility
 
-        reloadPossibilities(row_id - 1, column_id - 1)
+        reloadPossibilities(row_id, column_id)
 
         if(isSolved($scope.rows))
             sendScoreAndReturnControl(1)
@@ -520,6 +519,26 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 			alert("can't be solved")
 	};
     
+    $scope.deleteNumberAtSelectedField = function(){
+        if(typeof $scope.currently_clicked === 'undefined') return;
+
+        var row_id = $scope.currently_clicked[0]
+        var column_id = $scope.currently_clicked[1]
+        $scope.rows[row_id].columns[column_id].value = ""
+        reloadPossibilities(row_id, column_id)
+    }
+
+    $scope.disableIfNothingSelected = function(){
+        var deleteNumberBtn = document.getElementsByName("deleteNumberBtn")[0];
+        if ( typeof $scope.currently_clicked === 'undefined' ) {
+            deleteNumberBtn.style.display = "none";
+            return; 
+        }
+        var row_id = $scope.currently_clicked[0]
+        var column_id = $scope.currently_clicked[1]
+        deleteNumberBtn.style.display =  $scope.rows[row_id].columns[column_id].value == ""  ? "none" : "";
+    }
+
     $scope.sendScore = function(){
         sendScoreAndReturnControl(0);
     }

@@ -14,7 +14,6 @@
 </head>
 <body ng-controller="GameCtrl">
 
-  <button type="button" class="btn btn-default"  ng-click="sendScore()">Send score</button>
   <div>Pairs left to match: {{game.unmatchedPairs}}</div>
   <div>Matching: {{game.firstPick.title}}</div>
 
@@ -37,5 +36,13 @@
   </table>
 
   <div class="message">{{game.message}}</div>
+  <div align="left">
+      <br/>
+      Click to pass the game: 
+      <button type="button" class="btn btn-default" ng-click="sendScore()" style="font-size: 20px; width: 150px">Pass</button>
+      <br/>
+      <br/>
+      <br/>
+  </div>
 </body>
 </html>

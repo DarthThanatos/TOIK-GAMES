@@ -43,10 +43,9 @@
         }
 
         #wrapper {
-            border: 1px solid #999999;
             margin-top: 20px;
-            margin-left: auto;
-            margin-right: auto;
+            margin-left: 0 auto;
+            margin-right: 0 auto;
         }
 
         .row{
@@ -54,6 +53,7 @@
         }
 
         #manual {
+            width: 90%;
             margin-top: 30px;
             margin-left: auto;
             margin-right: auto;
@@ -61,7 +61,6 @@
         }
 
         #possibilitiesRow{
-            width: 50%;
             margin-left: auto;
             margin-right: auto;
         }
@@ -88,24 +87,23 @@
 
 
 
-<div id="manual"  style="background-color:lavenderblush;">
+<div id="manual"  style="text-align: left; background-color:lavenderblush;">
     Instrukcja wszytko tu jest przeczytaj dokładnie a dasz sobie radę <br/> 
 </div>
 
-<div id="wrapper" align="center" class="container" ng-app="Sudoku">
+<div id="wrapper" align="left" class="container" ng-app="Sudoku">
 
     <div class="content" ng-controller="SudokuController">
-        <div id="possibilitiesRow" align="center" style="margin-bottom: 30px;">
+        <div id="possibilitiesRow" align="left" style="margin-bottom: 30px;">
             
-            <button type="button" class="btn btn-default" ng-click="sendScore()">Send score</button>
             
-            <br/><br/>Possibilities:<br/>
-            <button disabled style="border: 1px solid #ffffff; {[{currentPossibilities | if_poss_eq0}]}" type="button" class="btn btn-default">No possibilities available</button>           
+            <br/>Choose one possibility from below:<br/>
+            <button disabled style="text-align: left; height:35px; border: 1px solid #000000; {[{currentPossibilities | if_poss_eq0}]}" type="button" class="btn btn-default">No possibilities available</button>   
 
-            <button type="button" class="btn btn-default" ng-repeat="possibility in currentPossibilities" ng-click="onPossibilityClicked(possibility)">
+            <button type="button" style="height:35px; width:30px;" class="btn btn-default" ng-repeat="possibility in currentPossibilities" ng-click="onPossibilityClicked(possibility)">
                 {[{possibility}]}
             </button>
-
+            <button name="deleteNumberBtn" ng-click="deleteNumberAtSelectedField()" class="btn {[{ disableIfNothingSelected() }]}">x</button>
         </div>
 
         <table>
@@ -115,12 +113,20 @@
                            name="cell-{[{row.id}]}{[{column.id}]}"
                            value="column.value" ng-model="column.value"
                            ng-disabled="{[{column.class | if_correct_disable}]}"
-                           style="height:50px;width:50px"
+                           style="height:35px; width:35px"
                            ng-click="possibilities(row.id, column.id)"> {[{ column.value }]} </button>
 
               </td>
             </tr>
         </table>
+        <div align="left">
+            <br/>
+            Click to pass the game: 
+            <button type="button" class="btn btn-default" ng-click="sendScore()">Pass</button>
+            <br/>
+            <br/>
+            <br/>
+        </div>
     </div>
 
 </div>

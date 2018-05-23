@@ -44,7 +44,7 @@ Sudoku.filter('if_poss_gt0', function(){
 
 Sudoku.filter('if_poss_eq0', function(){
         return function(input) {
-            return (typeof input === 'undefined' || input.length == 0 ) ? "" : 'display: none;';
+            return (typeof input === 'undefined' ||  input.length == 0 ) ? "" : 'display: none;';
         };
     }
 );
