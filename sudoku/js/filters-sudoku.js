@@ -37,7 +37,23 @@ Sudoku.filter('row_modulo_3_style', function(){
 
 Sudoku.filter('if_poss_gt0', function(){
         return function(input) {
-            return (typeof input !== 'undefined' && input.length != 0 ) ? 'Possibilities:' : '';
+            return (typeof input !== 'undefined' && input.length != 0 ) ? "Possibilities:" : '';
         };
     }
 );
+
+Sudoku.filter('if_poss_eq0', function(){
+        return function(input) {
+            return (typeof input === 'undefined' || input.length == 0 ) ? "" : 'display: none;';
+        };
+    }
+);
+
+
+Sudoku.filter('if_correct_disable', function(){
+    return function(input){
+        return input == "correct" ? "true" : "false"; 
+    }
+});
+
+

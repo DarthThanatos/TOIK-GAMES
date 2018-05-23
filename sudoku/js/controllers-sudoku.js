@@ -24,9 +24,10 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 	function isSolved(rows)
 	{
 		for(var i = 0; i < 9; i++)
-			for(var k=0; k<9; k++)
+			for(var k=0; k<9; k++){
 				if(rows[i].columns[k].value === "")
 					return false;
+            }
 		return true;
 	}
 
@@ -379,7 +380,8 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
     /**
      * Generates a new grid.
      */
-	$scope.generate = function() {		
+	$scope.generate = function() {	
+        console.log("generate")	
 		var rows = createEmptyRows();
 		var results = solveRows(rows);
 		if(results['state']){
@@ -469,15 +471,45 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 	            }
             }	    	   		
    	};
-   	   	   
+    
+    function reloadPossibilities(row_id, column_id){
+        var pos = getPossibilities($scope.rows, row_id, column_id);
+        $scope.rows[row_id].columns[column_id].possibilities = angular.copy(pos);
+        $scope.currentPossibilities = angular.copy(pos);
+
+    }
+
+    function changeCurrentlyClickedColorByCoords(color){
+        if(typeof $scope.currently_clicked === 'undefined') return
+        var row_id = $scope.currently_clicked[0]
+        var column_id = $scope.currently_clicked[1]
+        document.getElementsByName("cell-"+(row_id+1) +"" + (column_id+1))[0].style.background=color;
+    }
+
 	$scope.possibilities = function(row_id, column_id) {
 		row_id = row_id - 1;
 		column_id = column_id - 1;
-		var pos = getPossibilities($scope.rows, row_id, column_id);
-		$scope.rows[row_id].columns[column_id].possibilities = angular.copy(pos);
-		$scope.currentPossibilities = angular.copy(pos);
+
+        changeCurrentlyClickedColorByCoords("rgb(221, 221, 221)")
+        $scope.currently_clicked = [row_id, column_id];
+        changeCurrentlyClickedColorByCoords("rgb(255, 255, 0)")
+
+        reloadPossibilities(row_id, column_id);
 	};
 	
+    $scope.onPossibilityClicked = function(possibility){
+        var row_id = $scope.currently_clicked[0] + 1
+        var column_id = $scope.currently_clicked[1] + 1
+
+        $scope.rows[row_id - 1].columns[column_id - 1].value = possibility
+
+        reloadPossibilities(row_id - 1, column_id - 1)
+
+        if(isSolved($scope.rows))
+            sendScoreAndReturnControl(1)
+
+    }
+
 	$scope.solve = function() {
 		var results = solveRows($scope.rows);
 		if(results['state']){
@@ -489,6 +521,6 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 	};
     
     $scope.sendScore = function(){
-        sendScoreAndReturnControl(20);
+        sendScoreAndReturnControl(0);
     }
 }); 

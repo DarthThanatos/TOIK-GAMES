@@ -43,10 +43,10 @@
         }
 
         #wrapper {
+            border: 1px solid #999999;
             margin-top: 20px;
             margin-left: auto;
             margin-right: auto;
-            grid-column: span 9;
         }
 
         .row{
@@ -71,6 +71,17 @@
             font-size: 15px;
             text-align: center;
         }
+
+        button {
+          margin: .5px;
+        }
+
+        button:disabled,
+        button[disabled]{
+          border: 1px solid #999999;
+          background-color: #000000;
+          color: #666666;
+        }
     </style>
 </head>
 <body>
@@ -81,30 +92,31 @@
     Instrukcja wszytko tu jest przeczytaj dokładnie a dasz sobie radę <br/> 
 </div>
 
-<div id="wrapper" class="container" ng-app="Sudoku">
+<div id="wrapper" align="center" class="container" ng-app="Sudoku">
 
     <div class="content" ng-controller="SudokuController">
         <div id="possibilitiesRow" align="center" style="margin-bottom: 30px;">
             
             <button type="button" class="btn btn-default" ng-click="sendScore()">Send score</button>
             
-            {[{ currentPossibilities | if_poss_gt0}]}<br/>
+            <br/><br/>Possibilities:<br/>
+            <button disabled style="border: 1px solid #ffffff; {[{currentPossibilities | if_poss_eq0}]}" type="button" class="btn btn-default">No possibilities available</button>           
 
-            <button disabled="disabled" type="button" class="btn btn-default" ng-repeat="possibility in currentPossibilities">
+            <button type="button" class="btn btn-default" ng-repeat="possibility in currentPossibilities" ng-click="onPossibilityClicked(possibility)">
                 {[{possibility}]}
             </button>
-            
+
         </div>
 
         <table>
             <tr ng-repeat="row in rows" >
               <td ng-repeat="column in row.columns"  style="{[{ column.id | column_modulo_3_style}]} {[{ row.id | row_modulo_3_style}]}">
-                        <input class="form-control {[{ column.class }]} {[{check(row.id, column.id)}]}"
-                               name="cell-{[{row.id}]}{[{column.id}]}"
-                               value="column.value" ng-model="column.value" 
-                               ng-maxlength="1" required
-                               ng-click="possibilities(row.id, column.id)"
-                               ng-change="{[{ getValue(column.value, row.id, column.id) }]}">
+                    <button type="button" class="btn {[{ column.class }]} {[{check(row.id, column.id)}]} "
+                           name="cell-{[{row.id}]}{[{column.id}]}"
+                           value="column.value" ng-model="column.value"
+                           ng-disabled="{[{column.class | if_correct_disable}]}"
+                           style="height:50px;width:50px"
+                           ng-click="possibilities(row.id, column.id)"> {[{ column.value }]} </button>
 
               </td>
             </tr>
