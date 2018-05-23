@@ -8,10 +8,14 @@
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
   <script src="http://code.jquery.com/jquery-latest.min.js"></script> 
   <!-- <link rel="stylesheet" href="css/bootstrap.min.css">     -->
+
+  <script type="text/javascript" src="js/adapter-memo.js"></script>
+  <script>main();</script>
+
   <script src="js/app-memo.js"></script>
   <script src="js/game-memo.js"></script>
-  <script type="text/javascript" src="js/adapter-memo.js"></script>
-    <style type="text/css">
+
+  <style type="text/css">
       button {
         color: black;
         width: 150px;
@@ -28,11 +32,23 @@
         background-color: rgb(221, 221, 221);
         padding: 5px 10px;
       }
+
+      #manual {
+          width: 90%;
+          margin-top: 30px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
+      }
     </style>
-  <script>main();</script>
 </head>
 <body ng-controller="GameCtrl">
 
+  <div id="manual"  style="text-align: left; background-color:lavenderblush;">
+      Instrukcja wszytko tu jest przeczytaj dokładnie a dasz sobie radę <br/> 
+  </div>
+
+  <br/>
   <div>Pairs left to match: {{game.unmatchedPairs}}</div>
   <div>Matching: {{game.firstPick.title}}</div>
 
