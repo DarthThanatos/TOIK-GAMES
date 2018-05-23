@@ -7,9 +7,28 @@
   <script src="lib/angular.js"></script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
   <script src="http://code.jquery.com/jquery-latest.min.js"></script> 
+  <!-- <link rel="stylesheet" href="css/bootstrap.min.css">     -->
   <script src="js/app-memo.js"></script>
   <script src="js/game-memo.js"></script>
   <script type="text/javascript" src="js/adapter-memo.js"></script>
+    <style type="text/css">
+      button {
+        color: black;
+        width: 150px;
+        border: 1px solid #0066cc;
+        border-radius: 12px;
+        background-color: #ffffff;
+        padding: 5px 10px;
+      }
+      button:hover {
+        color: black;
+        width: 150px;
+        border: 1px solid #0099cc;
+        border-radius: 12px;
+        background-color: rgb(221, 221, 221);
+        padding: 5px 10px;
+      }
+    </style>
   <script>main();</script>
 </head>
 <body ng-controller="GameCtrl">
@@ -25,7 +44,7 @@
           <mg-card tile="tile"></mg-card>
         -->
         <div class="container">
-          <div class="card" ng-class="{flipped: tile.flipped}">
+          <div class="card" ng-class="{flipped: tile.flipped}"  >
               <img class="front" ng-src="img/back.png">
               <img class="back" ng-src="img/{{tile.title}}.png">
           </div>
@@ -39,7 +58,7 @@
   <div align="left">
       <br/>
       Click to pass the game: 
-      <button type="button" class="btn btn-default" ng-click="sendScore()" style="font-size: 20px; width: 150px">Pass</button>
+      <button type="button" class="btn btn-default" ng-click="sendScore()" >Pass</button>
       <br/>
       <br/>
       <br/>
