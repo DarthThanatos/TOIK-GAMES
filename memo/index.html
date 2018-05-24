@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8">
   <title>Memory Game</title>
-  <link rel="stylesheet" href="css/app.css">
-  <script src="lib/angular.js"></script>
+  <link rel="stylesheet" href="css/memo/css/app.css">
+  <script src="lib/memo/lib/angular.js"></script>
+    <script src="lib/memo/lib/jquery-1.11.3.min.js"></script>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script> -->
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script> 
-  <!-- <link rel="stylesheet" href="css/bootstrap.min.css">     -->
+  <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script>  -->
+  <!-- <link rel="stylesheet" href="css/memo/css/bootstrap.min.css">     -->
 
-  <script type="text/javascript" src="js/adapter-memo.js"></script>
+  <script type="text/javascript" src="js/memo/js/adapter-memo.js"></script>
   <script>main();</script>
 
-  <script src="js/app-memo.js"></script>
-  <script src="js/game-memo.js"></script>
+  <script src="js/memo/js/app-memo.js"></script>
+  <script src="js/memo/js/game-memo.js"></script>
 
   <style type="text/css">
       button {
@@ -61,8 +62,8 @@
         -->
         <div class="container">
           <div class="card" ng-class="{flipped: tile.flipped}"  >
-              <img class="front" ng-src="img/back.png">
-              <img class="back" ng-src="img/{{tile.title}}.png">
+              <img class="front" ng-src="img/memo/img/back.png">
+              <img class="back" ng-src="img/memo/img/{{tile.title}}.png">
           </div>
         </div>
 
