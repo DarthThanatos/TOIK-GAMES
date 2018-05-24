@@ -153,17 +153,6 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 	};
 
 
-	function genRandList(nbrRandom){
-		var randList = [];
-		while(randList.length < nbrRandom){
-			var rand_i = Math.ceil(Math.random()*9) - 1;
-			if (randList.indexOf(rand_i) === -1){
-				randList.push(rand_i);
-			}
-		}		
-		return randList;
-	}
-
 	$scope.check = function(rowId, columnId) {
 		rowId = rowId - 1;
 		columnId = columnId - 1;
@@ -304,7 +293,6 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
      * Generates a new random grid respecting the age of player.
      */
     function generateView (sudoku) {    
-        console.log("generate: " + window.name) 
 
         var rows = createEmptyRows();
         
@@ -317,11 +305,9 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
         var erasedNumber = ageToErasedNumber() //adapter method
         var uniqueIndeces = getUniqueIndeces(erasedNumber)
-        console.log("erased: " + erasedNumber + " uniqueIndeces: " + uniqueIndeces)
         for ( var k = 0; k < erasedNumber; k++ ){
             var i = Math.floor(uniqueIndeces[k] / 9);
             var j = uniqueIndeces[k]  % 9;
-            console.log("uniq i j = " + uniqueIndeces[k]  + " " + i + " " + j + " " );
             rows[i].columns[j].class = "";
             rows[i].columns[j].value = "";
         } 
@@ -514,4 +500,3 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
     $scope.generate();
 }); 
-
