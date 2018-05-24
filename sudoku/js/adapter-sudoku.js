@@ -24,6 +24,15 @@ function sendScoreAndReturnControl(score){
     postScoreJson(postScore_endpoint, score);
 }
 
+function ageToErasedNumber(){
+    var age = JSON.parse(window.name)["age"]
+    if(age <= 10) return 81 - 65;
+    if(age >= 11 && age <= 15) return 81 - 50;
+    if(age >= 16  && age <= 20) return 81 - 45;
+    if(age >= 21 && age <= 25) return 81 - 40;
+    if(age >= 26) return 81 - 35;
+}
+
 function postScoreJson(link, score) {
     var data = JSON.parse(window.name); 
 

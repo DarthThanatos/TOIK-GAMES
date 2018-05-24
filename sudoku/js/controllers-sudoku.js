@@ -285,11 +285,27 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
         }
     }
 
+
+    function getUniqueIndeces(N){
+        var indices = [];
+        for (var i = 0; i < 81; i++) {
+            indices.push(i);
+        }
+        var sample = indices
+          .map(x => ({ x, r: Math.random() }))
+          .sort((a, b) => a.r - b.r)
+          .map(a => a.x)
+          .slice(0, N);
+        return sample;
+    }
+
+
     /**
-     * Generates a new grid.
+     * Generates a new random grid respecting the age of player.
      */
     function generateView (sudoku) {    
         console.log("generate: " + window.name) 
+
         var rows = createEmptyRows();
         
         for (var l=0; l<9; l++){
@@ -298,41 +314,18 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
                 rows[l].columns[c].value = sudoku[l*9+c];              
             }
         }
-        //first we generate a sequence of the lines [1,2, 3, ..., 9]
-        var randomCells = genRandList(9);
-        //delete 8 values from 3 lines
-        for (var l=0; l<3; l++){
-            randomIndices = genRandList(8);
-            for (var c=0; c<8; c++){
-                rows[randomCells[l]].columns[randomIndices[c]].class = "";
-                rows[randomCells[l]].columns[randomIndices[c]].value = "";
-            }
-        }
-        //delete 6 values from 2 lines
-        for (var l=3; l<5; l++){
-            randomIndices = genRandList(6);
-            for (var c=0; c<6; c++){
-                rows[randomCells[l]].columns[randomIndices[c]].class = "";
-                rows[randomCells[l]].columns[randomIndices[c]].value = "";
-            }
-        }
-        //delete 4 values from 2 lines
-        for (var l=5; l<7; l++){
-            randomIndices = genRandList(4);
-            for (var c=0; c<4; c++){
-                rows[randomCells[l]].columns[randomIndices[c]].class = "";
-                rows[randomCells[l]].columns[randomIndices[c]].value = "";
-            }
-        }
-        //delete 3 values from 2 square
-        for (var l=7; l<9; l++){
-            var randomIndices = genRandList(3);
-            for (var c=0; c<3; c++){
-                rows[randomCells[l]].columns[randomIndices[c]].class = "";
-                rows[randomCells[l]].columns[randomIndices[c]].value = "";
-            }
-        }           
-        
+
+        var erasedNumber = ageToErasedNumber() //adapter method
+        var uniqueIndeces = getUniqueIndeces(erasedNumber)
+        console.log("erased: " + erasedNumber + " uniqueIndeces: " + uniqueIndeces)
+        for ( var k = 0; k < erasedNumber; k++ ){
+            var i = Math.floor(uniqueIndeces[k] / 9);
+            var j = uniqueIndeces[k]  % 9;
+            console.log("uniq i j = " + uniqueIndeces[k]  + " " + i + " " + j + " " );
+            rows[i].columns[j].class = "";
+            rows[i].columns[j].value = "";
+        } 
+
         $scope.rows = angular.copy(rows);
     };
 
