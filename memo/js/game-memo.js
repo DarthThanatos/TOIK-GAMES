@@ -74,9 +74,9 @@ function Game(tileNames) {
   this.updateTimeDisplay = function(timeInSec, $scope){
     var seconds_left = timeInSec;
     var game = this;
-    this.message = "Time to remember: " + seconds_left;
+    this.message = "Czas na zapamiętanie kart: " + seconds_left;
     var interval = setInterval(function() {
-        game.message = "Time to remember: " +  (--seconds_left);
+        game.message = "Czas na zapamiętanie kart: " +  (--seconds_left);
 
         if (seconds_left <= 0)
         {
@@ -105,11 +105,11 @@ function onCardRotationEnd (unmatchedPairs){
 }
 
 
-Game.MESSAGE_CLICK = 'Click on a tile.';
-Game.MESSAGE_ONE_MORE = 'Pick one more card.'
-Game.MESSAGE_MISS = 'Try again.';
-Game.MESSAGE_MATCH = 'Good job! Keep going.';
-Game.MESSAGE_WON = 'You win!';
+Game.MESSAGE_CLICK = 'Dotknij jedną z kart.';
+Game.MESSAGE_ONE_MORE = 'Wybierz jeszcze jedną kartę.'
+Game.MESSAGE_MISS = 'Spróbuj ponownie.';
+Game.MESSAGE_MATCH = 'Wspaniale! Oby tak dalej!';
+Game.MESSAGE_WON = 'Wygrałeś';
 
 
 /* Create an array with two of each tileName in it */

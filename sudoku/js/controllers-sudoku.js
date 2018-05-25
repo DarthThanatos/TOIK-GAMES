@@ -201,10 +201,36 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
     }
 
-    function changeCurrentlyClickedColorByCoords(color){
+    function changeCurrentlyClickedColorByCoords(color, hardcodedColor, notHardcodedColor, hardcodedFontColor, notHardcodedFontColor){
         if(typeof $scope.currently_clicked === 'undefined') return
         var row_id = $scope.currently_clicked[0]
         var column_id = $scope.currently_clicked[1]
+        for (var i = 0; i < 9; i++) {
+            if(i != row_id) {
+                document.getElementsByName("cell-"+(i+1) +"" + (column_id+1))[0].style.background=
+                    $scope.rows[i].columns[column_id].class == "correct" ? hardcodedColor: notHardcodedColor;
+                document.getElementsByName("cell-"+(i+1) +"" + (column_id+1))[0].style.color=
+                    $scope.rows[i].columns[column_id].class == "correct" ? hardcodedFontColor: notHardcodedFontColor;
+            }
+            if(i != column_id){
+                document.getElementsByName("cell-"+(row_id+1) +"" + (i+1))[0].style.background=
+                    $scope.rows[row_id].columns[i].class == "correct" ? hardcodedColor: notHardcodedColor;  
+                document.getElementsByName("cell-"+(row_id+1) +"" + (i+1))[0].style.color=
+                    $scope.rows[row_id].columns[i].class == "correct" ? hardcodedFontColor: notHardcodedFontColor;                 
+            }
+        }
+        var edges = getCaseEdgesByCoords(row_id, column_id);
+                
+        for(var j = edges.row.min; j < edges.row.max; j++)
+            for(var k=edges.column.min; k<edges.column.max; k++)
+            {
+                if(j != row_id && k != column_id){
+                    document.getElementsByName("cell-"+(j+1) +"" + (k+1))[0].style.background=
+                        $scope.rows[j].columns[k].class == "correct" ? hardcodedColor: notHardcodedColor;  
+                    document.getElementsByName("cell-"+(j+1) +"" + (k+1))[0].style.color=
+                        $scope.rows[j].columns[k].class == "correct" ? hardcodedFontColor: notHardcodedFontColor; 
+                }
+            }    
         document.getElementsByName("cell-"+(row_id+1) +"" + (column_id+1))[0].style.background=color;
     }
 
@@ -212,9 +238,9 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 		row_id = row_id - 1;
 		column_id = column_id - 1;
 
-        changeCurrentlyClickedColorByCoords("rgb(221, 221, 221)")
+        changeCurrentlyClickedColorByCoords("rgb(221, 221, 221)", "rgb(0, 0, 0)", "rgb(221, 221, 221)", "rgb(102, 102, 102)", "rgb(0, 0, 0)")
         $scope.currently_clicked = [row_id, column_id];
-        changeCurrentlyClickedColorByCoords("rgb(102, 153, 153)")
+        changeCurrentlyClickedColorByCoords("rgb(102, 153, 153)", "rgb(132, 125, 75)", "rgb(214, 194, 42)", "rgb(255, 255, 255)", "rgb(0, 0, 0)")
 
         reloadPossibilities(row_id, column_id);
 	};

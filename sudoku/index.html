@@ -101,8 +101,8 @@
         <div id="possibilitiesRow" align="left" style="margin-bottom: 30px;">
             
             
-            <br/>Choose one possibility from below:<br/>
-            <button disabled style="text-align: left; height:35px; border: 1px solid #000000; {[{currentPossibilities | if_poss_eq0}]}" type="button" class="btn btn-default">No possibilities available</button>   
+            <br/>Wybierz jedną z możliwości poniżej:<br/>
+            <button disabled style="text-align: left; height:35px; border: 1px solid #000000; {[{currentPossibilities | if_poss_eq0}]}" type="button" class="btn btn-default">Nie ma żadnych możliwości</button>   
 
             <button type="button" style="height:35px; width:30px;" class="btn btn-default" ng-repeat="possibility in currentPossibilities" ng-click="onPossibilityClicked(possibility)">
                 {[{possibility}]}
@@ -125,8 +125,8 @@
         </table>
         <div align="left">
             <br/>
-            Click to pass the game: 
-            <button type="button" class="btn btn-default" ng-click="sendScore()">Pass</button>
+            Wciśnij gdy zechcesz się poddać: 
+            <button type="button" class="btn btn-default" ng-click="sendScore()">Pasuj</button>
             <br/>
             <br/>
             <br/>
