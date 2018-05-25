@@ -35,23 +35,33 @@
       }
 
       #manual {
-          width: 90%;
-          margin-top: 30px;
-          margin-left: auto;
-          margin-right: auto;
-          text-align: center;
+        font-size: 12px;
+        width: 90%;
+        margin-top: 30px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
       }
+
+      #pairsInfoDiv{
+        font-size: 12px;
+      }
+
+      #matchingInfoDiv{
+        font-size: 12px;
+      }
+
     </style>
 </head>
 <body ng-controller="GameCtrl">
 
   <div id="manual"  style="text-align: left; background-color:lavenderblush;">
-      Instrukcja wszytko tu jest przeczytaj dokładnie a dasz sobie radę <br/> 
+      Masz kilkanaście sekund na zapamiętanie jak największej ilości kart. Po tym czasie karty obracają się zakrywając swoje symbole. Twoim zadaniem jest odkryć wszystkie pary w talii. Po ich odkryciu przyznany zostaje Ci 1 punkt. W każdej chwili możesz zrezygnować klikając w przycisk u dołu strony. Wiąże się to z niewykonaniem zadania i przyznaniem za niego 0 punktów. <br/> 
   </div>
 
   <br/>
-  <div>Par do odkrycia: {{game.unmatchedPairs}}</div>
-  <div>Teraz dopasowujesz: {{game.firstPick.title}}</div>
+  <div id="pairsInfoDiv">Par do odkrycia: {{game.unmatchedPairs}}</div>
+  <div id="matchingInfoDiv">Teraz dopasowujesz: {{game.firstPick.title}}</div>
 
   <table>
     <tr ng-repeat="row in game.grid">

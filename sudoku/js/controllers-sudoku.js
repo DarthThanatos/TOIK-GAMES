@@ -525,4 +525,5 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 
 
     $scope.generate();
+
 }); 
