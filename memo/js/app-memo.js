@@ -6,8 +6,7 @@ var memoryGameApp = angular.module('memoryGameApp', []);
 
 
 memoryGameApp.factory('game', function() {
-  var tileNames = ['8-ball', 'kronos', 'baked-potato', 'dinosaur', 'rocket', 'skinny-unicorn',
-    'that-guy', 'zeppelin'];
+  var tileNames = ageToTilesList();
   
   console.log("Creating new memo game with session data: " + window.name);  
 
@@ -20,6 +19,7 @@ memoryGameApp.controller('GameCtrl', function GameCtrl($scope, game) {
   $scope.sendScore = function(){
       sendScoreAndReturnControl(1);
   }
+   game.coverCardsAfterTime(ageToRememberTime(), $scope);
 });
 
 
@@ -36,8 +36,8 @@ memoryGameApp.directive('mgCard', function() {
     // index.html
     template: '<div class="container">' +
                 '<div class="card" ng-class="{flipped: tile.flipped}">' +
-                  '<img class="front" ng-src="img/memo/img/back.png">' +
-                  '<img class="back" ng-src="img/memo/img/{{tile.title}}.png">' +
+                  '<img class="front" ng-src="img/back.png">' +
+                  '<img class="back" ng-src="img/{{tile.title}}.png">' +
                 '</div>' +
               '</div>',
     scope: {

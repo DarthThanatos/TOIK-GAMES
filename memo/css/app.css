@@ -53,7 +53,7 @@ div {
 
 
 .card .back {
-  background: blue;
+  background: white;
   -webkit-transform: rotateY( 180deg );
   -moz-transform: rotateY( 180deg );
   -ms-transform: rotateY( 180deg );

@@ -3,7 +3,7 @@
 
 function Tile(title) {
   this.title = title;
-  this.flipped = false;
+  this.flipped = true;
 }
 
 Tile.prototype.flip = function() {
@@ -59,6 +59,43 @@ function Game(tileNames) {
       }
     }
   }
+
+  this.coverCardsAfterTime = function(timeInSec, $scope){
+    var grid = this.grid;
+    this.updateTimeDisplay(timeInSec, $scope)
+    setTimeout(
+      function(){
+        coverAllCards(grid, $scope)
+      },
+      timeInSec * 1000
+    )
+  } 
+
+  this.updateTimeDisplay = function(timeInSec, $scope){
+    var seconds_left = timeInSec;
+    var game = this;
+    this.message = "Time to remember: " + seconds_left;
+    var interval = setInterval(function() {
+        game.message = "Time to remember: " +  (--seconds_left);
+
+        if (seconds_left <= 0)
+        {
+            game.message = Game.MESSAGE_CLICK;
+            clearInterval(interval);
+        }
+        $scope.$apply()
+    }, 1000);
+  }
+}
+
+function coverAllCards(grid, $scope){
+  console.log("Covering all cards")
+  for (var i = 0; i < grid.length; i++){
+    for(var j = 0; j < grid[i].length; j++){
+      grid[i][j].flip();
+    }
+  }
+  $scope.$apply()
 }
 
 function onCardRotationEnd (unmatchedPairs){
@@ -75,7 +112,6 @@ Game.MESSAGE_MATCH = 'Good job! Keep going.';
 Game.MESSAGE_WON = 'You win!';
 
 
-
 /* Create an array with two of each tileName in it */
 function makeDeck(tileNames) {
   var tileDeck = [];
@@ -83,7 +119,7 @@ function makeDeck(tileNames) {
     tileDeck.push(new Tile(name));
     tileDeck.push(new Tile(name));
   });
-
+  console.log("making deck: " + tileDeck)
   return tileDeck;
 }
 
@@ -107,4 +143,3 @@ function removeRandomTile(tileDeck) {
   var i = Math.floor(Math.random()*tileDeck.length);
   return tileDeck.splice(i, 1)[0];
 }
-
