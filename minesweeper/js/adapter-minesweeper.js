@@ -8,13 +8,9 @@ function main(){
 function getJSON(link, callback) {
     var xobj = new XMLHttpRequest();
     xobj.overrideMimeType("application/json");
-    xobj.open('GET', link, true);
-    xobj.onreadystatechange = function() {
-        if (xobj.readyState === 4 && xobj.status === 200) {
-            callback(xobj.responseText);
-        }
-    };
+    xobj.open('GET', link, false);
     xobj.send(null);
+    callback(xobj.responseText);
 }
 
 function afterConfigFetched(configJSON){
@@ -25,6 +21,27 @@ function afterConfigFetched(configJSON){
 function sendScoreAndReturnControl(score){
     var adapterData = JSON.parse(window.name); 
     postScoreJson(postScore_endpoint, score);
+}
+
+function getRowsNumber(){
+    var age = JSON.parse(window.name)["age"];
+    var rows = Math.round(age / 2);
+	if(rows < 3) {
+		return 3;
+	}
+	if(rows > 12) {
+		return 12
+	}
+	return rows;
+}
+
+function getMinesNumber(){
+    var age = JSON.parse(window.name)["age"];
+    var mines = Math.round(age * 5 * 0.16);
+	if(mines > 20) {
+		return 20;
+	}
+	return mines;
 }
 
 function postScoreJson(link, score) {
@@ -52,7 +69,7 @@ function postScoreJson(link, score) {
                 result: score
             }
         );
-    console.log(sentPayload);
+    console.log("Sending: " + sentPayload);
     xobj.send(sentPayload);
 }
 

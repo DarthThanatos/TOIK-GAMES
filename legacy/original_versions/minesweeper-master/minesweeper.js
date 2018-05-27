@@ -10,16 +10,26 @@ var game = {
     maxreveals: 0,
     flag: '&#9873;&#65038;',
     mine: '&#9728;&#65038;',
+    flagMode: false,
 
     start: function () {
-        var rows = getRowsNumber();
-        var cols = 10;
-        var mines = getMinesNumber();
+        var rows = $('rows').value,
+            cols = $('cols').value,
+            mines = $('mines').value;
 
         game.initialize_grid(rows, cols);
         game.set_mines(mines);
         game.fill_grid();
         game.add_grid_to_DOM();
+        game.bind_keys();
+    },
+
+    reset: function () {
+        $('grid').innerHTML = '';
+        $('tagline').innerHTML = 'click a mine and lose';
+        $('tagline').style.color = 'black';
+        game.revealed = 0;
+        game.start();
     },
 
     initialize_grid: function (rows, cols) {
@@ -130,7 +140,9 @@ var game = {
 
     click_cell: function (row, col) {
         var id = 'cell-' + row + '-' + col;
-        if (!game.is_flag(id)) {
+        if (game.flagMode) {
+            game.flag_cell(row, col);
+        } else if (!game.is_flag(id)) {
             if (game.revealed === 0) {
                 game.safe_reveal(row, col);
             } else {
@@ -250,6 +262,16 @@ var game = {
         }
     },
 
+    bind_keys: function () {
+        Mousetrap.bind("f", function(){ 
+            if ($('flag').checked) {
+                $('flag').checked = false;
+            } else {
+                $('flag').checked = true;
+            }
+        });
+    },
+
     update_status: function () {
         if (game.revealed === game.maxreveals) {
             game.win();
@@ -257,7 +279,8 @@ var game = {
     },
 
     win: function () {
-        $('remaining').style.color = 'green';
+        $('tagline').innerHTML = 'you win :)';
+        $('tagline').style.color = 'green';
         for (var i = 0; i < game.rows; i++) {
             for (var j = 0; j < game.cols; j++) {
                 var id = 'cell-' + i + '-' + j;
@@ -270,13 +293,11 @@ var game = {
             }
         }
         game.update_remaining();
-		$('remaining').innerHTML = 'you win :)';
-		sendScoreAndReturnControl(1);
     },
 
     lose: function () {
-		$('remaining').innerHTML = 'you lost :(';
-        $('remaining').style.color = 'red';
+        $('tagline').innerHTML = 'you lost :(';
+        $('tagline').style.color = 'red';
         for (var i = 0; i < game.rows; i++) {
             for (var j = 0; j < game.cols; j++) {
                 var id = 'cell-' + i + '-' + j;
@@ -288,16 +309,21 @@ var game = {
                 }
             }
         }
-		var score = (game.revealed / game.maxreveals) - 0.5;
-		if(score < 0) {
-			score = 0;
-		}
-		sendScoreAndReturnControl(score);
     },
 
     disable_cell: function (id) {
         $(id).onclick = false;
         $(id).oncontextmenu = false;
+    },
+
+    toggle_flag: function () {
+        if (game.flagMode) {
+            game.flagMode = false;
+            $('flag').style.backgroundColor = '#08F';
+        } else {
+            game.flagMode = true;
+            $('flag').style.backgroundColor = '#05C';
+        }
     },
 };
 
