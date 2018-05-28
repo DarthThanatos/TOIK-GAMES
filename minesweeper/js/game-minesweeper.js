@@ -23,15 +23,6 @@ var game = {
     },
 
     initialize_grid: function (rows, cols) {
-        if (rows > 25) {
-            rows = 25;
-            $('tagline').innerHTML = 'maximum number of rows/columns is 25';
-        }
-        if (cols > 25) {
-            cols = 25;
-            $('tagline').innerHTML = 'maximum number of rows/columns is 25';
-        }
-
         game.grid = new Array(rows);
         for (var i = 0; i < rows; i++) {
             game.grid[i] = new Array(cols);
@@ -270,12 +261,12 @@ var game = {
             }
         }
         game.update_remaining();
-		$('remaining').innerHTML = 'you win :)';
+		$('remaining').innerHTML = 'wygrałeś :)';
 		sendScoreAndReturnControl(1);
     },
 
     lose: function () {
-		$('remaining').innerHTML = 'you lost :(';
+		$('remaining').innerHTML = 'przegrałeś :(';
         $('remaining').style.color = 'red';
         for (var i = 0; i < game.rows; i++) {
             for (var j = 0; j < game.cols; j++) {
