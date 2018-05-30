@@ -1,25 +1,12 @@
-/*-------------------------------------------------------------------
-*
-*	A part of the snake.
-*	Will only have a x and y coordinates.
-*
-*------------------------------------------------------------------*/
 class SnakePart {
 
 	constructor(x, y) {
-
 		this.x = x;
 		this.y = y;
-
 	}
 
 }
 
-/*-------------------------------------------------------------------
-*
-*	The snake itself.
-*
-*------------------------------------------------------------------*/
 class Snake {
 
 	constructor(game, x, y, initialPartsAmount) {
@@ -30,8 +17,8 @@ class Snake {
 		this.isAlive = true;
 
 		//Determines if the snake is going up/down or left/right.
-		this.xSpeed = 1;
-		this.ySpeed = 0;
+		this.xSpeed = 0;
+		this.ySpeed = 1;
 
 		//Create the snake's parts.
 		this.parts = [];
@@ -48,37 +35,6 @@ class Snake {
 			_this.controller(event.which);
 
 		};
-		
-		var mc = new Hammer(document.getElementById('stage'));
-		mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
-		
-		mc.on("swipeleft swipeup swiperight swipedown", function (ev) {        
-			if (ev.type === 'swipeleft') {
-				if (this.ySpeed != 0 && this.canChangeDirection) {
-					this.canChangeDirection = false;
-					this.xSpeed = -1;
-					this.ySpeed = 0;
-				}
-			} else if (ev.type === 'swipeup') {
-				if (this.xSpeed != 0 && this.canChangeDirection) {
-					this.canChangeDirection = false;
-					this.xSpeed = 0;
-					this.ySpeed = -1;
-				}
-			} else if (ev.type === 'swiperight') {
-				if (this.ySpeed != 0 && this.canChangeDirection) {
-					this.canChangeDirection = false;
-					this.xSpeed = 1;
-					this.ySpeed = 0;
-				}
-			} else if (ev.type === 'swipedown') {
-				if (this.xSpeed != 0 && this.canChangeDirection) {
-					this.canChangeDirection = false;
-					this.xSpeed = 0;
-					this.ySpeed = 1;
-		}
-			}
-		});
 	}
 
 	/*
@@ -151,12 +107,6 @@ class Snake {
 		this.x += this.xSpeed;
 		this.y += this.ySpeed;
 
-		/**
-		Snake would not death when collapsed bounds of canvas.
-		Coordinates are reversed when snake will collapse the bound.
-		Example; if this.x = -1 (snake is collapsed to left bound of canvas)
-		this.x will be 19(this.game.width - 1) to keep continue game at right bound of canvas
-		*/
 		if (this.x > this.game.width - 1)
 			this.die();
 		if (this.x < 0) {
@@ -211,11 +161,6 @@ class Snake {
 
 }
 
-/*-------------------------------------------------------------------
-*
-*	The food that the snake will eat.
-*
-*------------------------------------------------------------------*/
 class Food {
 
 	constructor(game) {
@@ -236,17 +181,12 @@ class Food {
 	//Render the food in the grid.
 	update() {
 
-		this.game.grid.fillTile(this.x, this.y, "#111410");
+		this.game.grid.fillTile(this.x, this.y, "#0d66c4");
 
 	}
 
 }
 
-/*-------------------------------------------------------------------
-*
-*	The game's grid. Can be of any size you want.
-*
-*------------------------------------------------------------------*/
 class RenderGrid {
 
 	constructor(game) {
@@ -270,6 +210,7 @@ class RenderGrid {
 
 				//Create a tile to add to the grid.
 				var divTile = document.createElement("div");
+				divTile.id = "cell";
 				divTile.style.position = "absolute";
 				divTile.style.width = divTile.style.height = this.game.size + "px";
 				divTile.style.left = x * this.game.size + "px";
@@ -340,27 +281,21 @@ class RenderGrid {
 
 }
 
-/*-------------------------------------------------------------------
-*
-*	The game.
-*
-*------------------------------------------------------------------*/
 class Game {
 
-	constructor(size, fps, divStageId, spanScoreId) {
+	constructor(divStageId, spanScoreId) {
 
-		this.width = size;
-		this.height = size;
-		this.size = size;
-		this.fps = fps;
+		this.width = 10;
+		this.height = 15;
+		this.size = 30;
+		this.fps = getSpeed();
 		this.isPaused = false;
 
 		this.divStage = document.getElementById(divStageId);
 		this.spanScore = document.getElementById(spanScoreId);
 
 		this.score = 0;
-		this.deaths = 0;
-		this.maxScore = this.score;
+		this.maxScore = 15;
 		this.grid = new RenderGrid(this);
 		this.food = new Food(this);
 		this.snake = new Snake(this, 5, 2, 3);
@@ -368,9 +303,7 @@ class Game {
 		//Start loop.
 		var _this = this;
 		this.interval = setInterval(function () {
-
 			_this.update();
-
 		}, 1000/this.fps);
 
 	}
@@ -382,21 +315,20 @@ class Game {
 
 		this.spanScore.innerHTML = this.score;
 
-		if(this.score >= 20) {
-			sendScoreAndReturnControl(this.score)
+		if(this.score >= this.maxScore) {
+			this.spanScore.style.color = 'green';
+			this.spanScore.innerHTML = 'wygrałeś :)';
+			sendScoreAndReturnControl(this.score / this.maxScore);
 		}
 		
 		if (! this.snake.isAlive) {
-			if(this.deaths > 0) {
-				sendScoreAndReturnControl(this.score)
+			this.spanScore.style.color = 'red';
+			this.spanScore.innerHTML = 'przegrałeś :(';
+			var scoreTmp = (this.score / this.maxScore) - 0.5;
+			if(scoreTmp < 0) {
+				scoreTmp = 0;
 			}
-			this.maxScore = this.score > this.maxScore ? this.score : this.maxScore;
-			this.score = 0;
-			this.deaths++;
-
-			this.snake = new Snake(this, 5, 2, 3);
-			this.food.placeFood();
-
+			sendScoreAndReturnControl(scoreTmp);
 		}
 
 		this.food.update();
@@ -408,7 +340,6 @@ class Game {
 			this.food.placeFood();
 			this.snake.addPart();
 			this.score++;
-
 		}
 
 		this.grid.update();
