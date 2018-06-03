@@ -279,6 +279,7 @@ class Game {
 		this.size = 30;
 		this.fps = getSpeed();
 		this.isPaused = true;
+		this.rendered = false;
 
 		this.divStage = document.getElementById(divStageId);
 		this.spanScore = document.getElementById(spanScoreId);
@@ -299,8 +300,15 @@ class Game {
 
 	update() {
 
-		if (this.isPaused)
+		if (this.isPaused) {
+			if(!this.rendered) {
+				this.rendered = true;
+				this.food.update();
+				this.snake.update();
+				this.grid.update();
+			}
 			return;
+		}
 
 		this.spanScore.innerHTML = this.score;
 
