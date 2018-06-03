@@ -25,12 +25,12 @@ function sendScoreAndReturnControl(score){
 
 function getSpeed(){
     var age = JSON.parse(window.name)["age"];
-    var speed = Math.round(age / 3);
-	if(speed > 8) {
-		return 8;
+    var speed = Math.round(age / 4);
+	if(speed > 6) {
+		return 6;
 	}
-	if(speed < 2) {
-		return 2;
+	if(speed < 1) {
+		return 1;
 	}
 	return speed;
 }

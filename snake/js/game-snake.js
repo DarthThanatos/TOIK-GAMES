@@ -31,7 +31,6 @@ class Snake {
 		//Captures the key pressed by the player.
 		var _this = this;
 		document.onkeydown = function (event) {
-
 			_this.controller(event.which);
 
 		};
@@ -44,20 +43,13 @@ class Snake {
 		0, that means the snake is going up or down.
 	*/
 	controller(key) {
-
-		//Enter.
-		if (key == 13) {
-
-			this.game.isPaused = ! this.game.isPaused;
-
+		
+		if (this.game.isPaused) {
+			this.game.isPaused = false;
+			return;
 		}
 
-		//If it is paused, it will not receive any other input.
-		if (this.game.isPaused)
-			return;
-
-		//Left.
-		if (key == 37 && this.ySpeed != 0 && this.canChangeDirection) {
+		if ((key == 37 || key == 'left') && this.ySpeed != 0 && this.canChangeDirection) {
 
 			this.canChangeDirection = false;
 			this.xSpeed = -1;
@@ -65,8 +57,7 @@ class Snake {
 
 		}
 
-		//Right.
-		if (key == 39 && this.ySpeed != 0 && this.canChangeDirection) {
+		if ((key == 39 || key == 'right') && this.ySpeed != 0 && this.canChangeDirection) {
 
 			this.canChangeDirection = false;
 			this.xSpeed = 1;
@@ -74,8 +65,7 @@ class Snake {
 
 		}
 
-		//Up.
-		if (key == 38 && this.xSpeed != 0 && this.canChangeDirection) {
+		if ((key == 38 || key == 'up') && this.xSpeed != 0 && this.canChangeDirection) {
 
 			this.canChangeDirection = false;
 			this.xSpeed = 0;
@@ -83,8 +73,7 @@ class Snake {
 
 		}
 
-		//Down.
-		if (key == 40 && this.xSpeed != 0 && this.canChangeDirection) {
+		if ((key == 40 || key == 'down') && this.xSpeed != 0 && this.canChangeDirection) {
 
 			this.canChangeDirection = false;
 			this.xSpeed = 0;
@@ -199,7 +188,7 @@ class RenderGrid {
 	}
 
 	buildGrid() {
-
+	
 		//Loop through all the rows of the grid.
 		for (var x = 0; x < this.game.width; x++) {
 
@@ -289,7 +278,7 @@ class Game {
 		this.height = 15;
 		this.size = 30;
 		this.fps = getSpeed();
-		this.isPaused = false;
+		this.isPaused = true;
 
 		this.divStage = document.getElementById(divStageId);
 		this.spanScore = document.getElementById(spanScoreId);
@@ -344,5 +333,12 @@ class Game {
 
 		this.grid.update();
 	}
+	
+	changeDirection(direction) {
+		this.snake.controller(direction);
+	}
+}
 
+function changeDirection(direction, game) {
+	game.changeDirection(direction);
 }
