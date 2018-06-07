@@ -6,7 +6,7 @@
 
 html, button, input, select, textarea,
 .pure-g [class *= "pure-u"] {
-    font-family: "Segoe UI", Segoe, Tahoma, Geneva, sans-serif;
+    font-family: "Tahoma", Segoe, Tahoma, Geneva, sans-serif;
 }
 
 body {

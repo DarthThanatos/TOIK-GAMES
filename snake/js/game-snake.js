@@ -275,9 +275,9 @@ class Game {
 	constructor(divStageId, spanScoreId) {
 
 		this.width = 10;
-		this.height = 15;
+		this.height = 12;
 		this.size = 30;
-		this.fps = getSpeed();
+		this.fps = 5;//getSpeed();
 		this.isPaused = true;
 		this.rendered = false;
 

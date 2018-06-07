@@ -6,7 +6,7 @@
 
 html, button, input, select, textarea,
 .pure-g [class *= "pure-u"] {
-    font-family: "Segoe UI", Segoe, Tahoma, Geneva, sans-serif;
+    font-family: "Tahoma", Segoe, Tahoma, Geneva, sans-serif;
 }
 
 body {
@@ -18,7 +18,6 @@ body {
 
 #stage {
 	margin-left: 6%;
-	height: 460px;
 	width: 300px;
 	text-align: center;
     white-space: nowrap;
@@ -41,15 +40,18 @@ body {
 }
 
 #buttons {
-	top: 461px;
+	top: 371px;
 	margin-bottom: 3%;
 }
 
 button {
     text-decoration: none;
     display: inline-block;
-    padding: 10px 18px;
+    padding: 24px 32px;
     color: black;
+}
+.up {
+	margin-bottom: 3%;
 }
 
 button:hover {
