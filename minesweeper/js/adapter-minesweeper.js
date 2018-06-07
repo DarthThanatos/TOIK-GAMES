@@ -1,5 +1,5 @@
 var config_endpoint = "/minesweeper/config"
-var postScore_endpoint = "/game/end"
+var postScore_endpoint = "/minesweeper/end"
 
 function main(){
     getJSON(config_endpoint, afterConfigFetched);

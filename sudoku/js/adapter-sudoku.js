@@ -1,5 +1,5 @@
 var config_endpoint = "/sudoku/config" //http://192.168.0.100:8082/sudoku/config"
-var postScore_endpoint = "/game/end" //"http://192.168.0.100:8082/game/end"
+var postScore_endpoint = "/sudoku/end" //"http://192.168.0.100:8082/game/end"
 
 function main(){
     getJSON(config_endpoint, afterConfigFetched);

@@ -1,5 +1,5 @@
 var config_endpoint = "/memo/config" //"http://192.168.0.100:8082/memo/config"
-var postScore_endpoint = "/game/end" //"http://192.168.0.100:8082/game/end"
+var postScore_endpoint = "/memo/end" //"http://192.168.0.100:8082/game/end"
 
 function main(){
     getJSON(config_endpoint, afterConfigFetched);

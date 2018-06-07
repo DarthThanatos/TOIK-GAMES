@@ -1,5 +1,5 @@
 var config_endpoint = "/snake/config"
-var postScore_endpoint = "/game/end"
+var postScore_endpoint = "/snake/end"
 
 function main(){
     getJSON(config_endpoint, afterConfigFetched);
