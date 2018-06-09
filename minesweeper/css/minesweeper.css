@@ -48,9 +48,12 @@ body {
 #instructions {
     color: #333;
 	margin-bottom: 0;
+	margin-top: -3%;
 }
-#instructions h2 {
-    margin-left: 0.5em;
+
+#instructions ul {
+	margin-bottom: -1%;
+	margin-top: -1%;
 }
 
 @media (min-width: 48em) {

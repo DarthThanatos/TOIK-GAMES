@@ -34,14 +34,17 @@ body {
 #instructions {
     color: #333;
 	margin-bottom: 0;
+	margin-top: -3%;
 }
-#instructions h2 {
+
+#instructions ul {
+	margin-bottom: -1%;
 	margin-top: -1%;
 }
 
 #buttons {
 	top: 371px;
-	margin-bottom: 3%;
+	margin-bottom: 2%;
 }
 
 button {

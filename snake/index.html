@@ -3,6 +3,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <link rel="stylesheet" href="css/snake.css" type="text/css"/>
+	  <script src="lib/hammer.min.js"></script>
       <script src="js/game-snake.js"></script>
       <script type="text/javascript" src="js/adapter-snake.js"></script>
       <script>main();</script>
@@ -10,13 +11,15 @@
    <body>
       <div class="pure-g">
          <div id="instructions" class="content pure-u-1">
-            <h2>Snake - zasady rozgrywki</h2>
+            <h4>Snake - zasady rozgrywki</h4>
             <ul>
-               <li>Użyj strzałek aby poruszać wężem, zbieraj jedzenie</li>
+			   <font size="2">
+               <li>Użyj strzałek lub użyj gestów aby poruszać wężem, zbieraj jedzenie</li>
                <li>Jeśli uderzysz głową w ścianę, lub swoje ciało, <strong>przegrywasz</strong></li>
-			   <li>Kliknij w przyciski poruszania aby rozpocząć rozgrywkę</li>
+			   <li>Dokonaj ruchu aby rozpocząć rozgrywkę</li>
+			   </font>
             </ul>
-            <h2>Wynik (maksymalnie 15): <span id="score"></span> </h2>
+            <h4>Wynik (maksymalnie 15): <span id="score"></span></h4>
          </div>
          <div id="stage" style="position:relative">
             <div id="buttons" style="position:relative">

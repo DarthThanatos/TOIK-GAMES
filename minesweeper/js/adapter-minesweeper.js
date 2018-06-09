@@ -37,9 +37,12 @@ function getRowsNumber(){
 
 function getMinesNumber(){
     var age = JSON.parse(window.name)["age"];
-    var mines = Math.round(age * 5 * 0.16);
-	if(mines > 20) {
-		return 20;
+    var mines = Math.round(age * 5 * 0.14);
+	if(mines > 17) {
+		return 17;
+	}
+	if(mines < 3) {
+		return 3;
 	}
 	return mines;
 }

@@ -34,6 +34,21 @@ class Snake {
 			_this.controller(event.which);
 
 		};
+		
+		var mc = new Hammer(document.getElementById('stage'));
+		mc.get('swipe').set({ direction: Hammer.DIRECTION_ALL });
+		
+		mc.on("swipeleft swipeup swiperight swipedown", function (ev) {        
+			if (ev.type === 'swipeleft') {
+				_this.controller('left');
+			} else if (ev.type === 'swipeup') {
+				_this.controller('up');
+			} else if (ev.type === 'swiperight') {
+				_this.controller('right');
+			} else if (ev.type === 'swipedown') {
+				_this.controller('down');
+			}
+		});
 	}
 
 	/*
@@ -277,7 +292,7 @@ class Game {
 		this.width = 10;
 		this.height = 12;
 		this.size = 30;
-		this.fps = 5;//getSpeed();
+		this.fps = getSpeed();
 		this.isPaused = true;
 		this.rendered = false;
 
