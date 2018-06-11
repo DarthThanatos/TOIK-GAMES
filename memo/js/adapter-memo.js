@@ -6,7 +6,7 @@ function main(){
     JSON.stringify({
         group : "ab34",
         nick : "Robert",
-        age : 16
+        age : 26
     })
     getJSON(config_endpoint, afterConfigFetched);
 }
