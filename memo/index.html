@@ -82,7 +82,7 @@
         -->
         <div class="container">
           <div class="card" ng-class="{flipped: tile.flipped}"  >
-              <img class="front" ng-src="img/back.png">
+              <img class="front" >
               <img class="back" ng-src="img/{{tile.title}}.png">
           </div>
         </div>
@@ -92,13 +92,5 @@
   </table>
 
   <div class="message">{{game.message}}</div>
-  <div align="left">
-      <br/>
-      Kliknij aby spasować: 
-      <button type="button" class="btn btn-default" ng-click="sendScore()" >Pasuj</button>
-      <br/>
-      <br/>
-      <br/>
-  </div>
 </body>
 </html>

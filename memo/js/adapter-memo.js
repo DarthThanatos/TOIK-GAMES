@@ -1,7 +1,13 @@
 var config_endpoint = "/memo/config" //"http://192.168.0.100:8082/memo/config"
-var postScore_endpoint = "/memo/end" //"http://192.168.0.100:8082/game/end"
+var postScore_endpoint = "/game/end" //"http://192.168.0.100:8082/game/end"
 
 function main(){
+    window.name = 
+    JSON.stringify({
+        group : "ab34",
+        nick : "Robert",
+        age : 16
+    })
     getJSON(config_endpoint, afterConfigFetched);
 }
 
