@@ -238,7 +238,7 @@ Sudoku.controller('SudokuController', function SudokuController($scope, data) {
 		row_id = row_id - 1;
 		column_id = column_id - 1;
 
-        changeCurrentlyClickedColorByCoords("rgb(221, 221, 221)", "rgb(0, 0, 0)", "rgb(221, 221, 221)", "rgb(102, 102, 102)", "rgb(0, 0, 0)")
+        changeCurrentlyClickedColorByCoords("rgb(221, 221, 221)", "pink", "rgb(221, 221, 221)", "black", "rgb(0, 0, 0)")
         $scope.currently_clicked = [row_id, column_id];
         changeCurrentlyClickedColorByCoords("rgb(102, 153, 153)", "rgb(132, 125, 75)", "rgb(214, 194, 42)", "rgb(255, 255, 255)", "rgb(0, 0, 0)")
 
